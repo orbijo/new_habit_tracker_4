@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRelationshipsTable extends Migration
+class CreateRatingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateRelationshipsTable extends Migration
      */
     public function up()
     {
-        Schema::table('habits', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+        Schema::create('ratings', function (Blueprint $table) {
+            $table->id();
+            $table->string('rating');
+            $table->date('rated_at');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class CreateRelationshipsTable extends Migration
      */
     public function down()
     {
-        Schema::table('habits', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
+        Schema::dropIfExists('ratings');
     }
 }

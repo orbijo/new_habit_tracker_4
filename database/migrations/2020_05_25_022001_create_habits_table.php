@@ -17,7 +17,6 @@ class CreateHabitsTable extends Migration
             $table->id();
             $table->string('description');
             $table->text('reason');
-            $table->string('rating');
             $table->timestamps();
         });
     }
