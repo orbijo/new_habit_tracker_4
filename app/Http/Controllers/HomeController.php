@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Habit;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user_id = auth()->user()->id;
+        $hobbies = Habit::where(['user_id'=>$user_id])->get(); 
+        return view('habit.index',['hobbies'=>$hobbies]);
     }
 }

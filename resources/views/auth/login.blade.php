@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
 @section('content')
+@guest
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -69,5 +70,9 @@
             </div>
         </div>
     </div>
+</div>
+@endguest
+<div class="row justify-content-center">
+<h2>Trabbit</h2>
 </div>
 @endsection

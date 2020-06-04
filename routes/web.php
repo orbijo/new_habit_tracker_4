@@ -14,8 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+
+
+Route::get('/habits','HabitController@index');
+Route::get('/habits/create','HabitController@create');
+Route::post('/habits','HabitController@store');
+Route::get('/habits/{id}','HabitController@show');
+Route::delete('/habits/{id}','HabitController@destroy');
 
 Auth::routes();
 
