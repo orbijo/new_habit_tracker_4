@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use Auth;
+use Carbon\Carbon;
 use App\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class RatingController extends Controller
 {
@@ -35,7 +39,28 @@ class RatingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'rating' => ['required', 'string', Rule::in(['smile', 'meh', 'frown'])],
+            'habit_id' => ['required', 'integer'],
+        ]);
+
+        if($validation->fails()) {
+            return redirect('/home')
+                ->withErrors($validation)
+                ->withInput();
+        }
+
+        if($rating = Rating::whereDay('created_at', '=', Carbon::now()->day)->where('habit_id', $request->habit_id)->first()){
+            $rating->rating = $request->rating;
+        }
+        else{
+            $rating = new Rating;
+            $rating->rating = $request->rating;
+            $rating->habit_id = $request->habit_id;
+        }
+        if($rating->save()) {
+            return redirect('/habits'.'/'.$request->habit_id);
+        }
     }
 
     /**

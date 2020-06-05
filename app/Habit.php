@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Habit extends Model
@@ -14,6 +15,11 @@ class Habit extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function dateCreated()
+    {
+        return date('F d, Y', strtotime($this->created_at));
     }
 
 }

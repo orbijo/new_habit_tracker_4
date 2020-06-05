@@ -10,4 +10,10 @@ class Rating extends Model
     {
         return $this->belongsTo(Habit::class);
     }
+
+    public function ratedAt()
+    {
+        return date('F d, Y', strtotime($this->created_at));
+    }
+
 }
