@@ -10,15 +10,21 @@
                     <thead>
                         <tr>
                         <th scope="col">Habit</th>
-                        <th scope="col">Date Created</th>
+                        <th scope="col">Time Lapse</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($user->habits as $habit)
                             <tr class="clickable" onclick="window.location.href = '{{ route('habits.show', $habit->id) }}';">
                             <td>{{ $habit->description }}</td>
-                            <td>{{ $habit->dateCreated() }}</td>
+                            @if(isset($habit->firstRating))
+                            <td>{{ $habit->firstRating->created_at->diffForHumans() }}</td>
                             </tr>
+                            @else
+                            <td>Not rated yet</td>
+                            </tr>
+                            @endif
+                            
                         @empty
                             <tr>
                             <td>No Entries</td>

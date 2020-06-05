@@ -22,4 +22,8 @@ class Habit extends Model
         return date('F d, Y', strtotime($this->created_at));
     }
 
+    public function firstRating(){
+        return $this->hasOne(Rating::class)->oldest();
+    }
+
 }

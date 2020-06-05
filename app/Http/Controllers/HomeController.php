@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Habit;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::with('habits')->where('id', Auth::user()->id)->first();
-        
+        $user = User::with('habits.firstRating')->where('id', Auth::user()->id)->first();
         return view('home', ['user' => $user]);
     }
 }
