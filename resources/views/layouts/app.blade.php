@@ -20,6 +20,62 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/floatingbtn.css') }}" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var ratings = {!! json_encode($habit->ratings->toArray()) !!}
+        var events = []
+        ratings.forEach(element => {
+            var newEvent = {
+                title : element.rating,
+                start : element.created_at,
+                icon: element.rating
+            }
+            events.push(newEvent)
+        });
+        events.forEach(element => {
+            if(element.icon == 'smile'){
+                element.backgroundColor = '#5cb85c'
+            }
+            else if(element.icon == 'meh'){
+                element.backgroundColor = '#f0ad4e'
+            }
+            else {
+                element.backgroundColor = '#d9534f'
+            }
+        })
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'dayGrid' ],
+            events: events,
+            eventRender: function (info) {
+                let icon = info.event.extendedProps.icon;
+                let title = $(info.el).first('.fc-title-wrap');
+                if (icon !== undefined) {
+                    title.prepend("<i class='far fa-"+ icon + " fa-lg'></i>");
+                }
+                if(icon == 'smile'){
+                    this.eventBackgroundColor = '#5cb85c'
+                }
+                $(info.el).addClass('text-center pt-2 pb-1')
+            },
+            displayEventTime: false,
+            eventTextColor: '#ffffff',
+            eventBorderColor: "#ffffff"
+        });
+
+        calendar.render();
+      });
+    </script>
 </head>
 <body>
     <div id="app">

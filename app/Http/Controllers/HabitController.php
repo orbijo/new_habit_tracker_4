@@ -70,7 +70,7 @@ class HabitController extends Controller
         $retval = Habit::with('ratings')->where('id', $habit->id)->first();
         $response = Gate::inspect('auth-user', $retval);
         if($response->allowed()){
-            return view('habits.show', ['habit' => $retval]);
+            return view('habits.show', ['habit' => $retval, compact('calendar')]);
         }
         else{
             abort(404);
