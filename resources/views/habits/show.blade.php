@@ -5,11 +5,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h4>{{ $habit->description }}</h4>
-            {{-- <ul>
-                @foreach($habit->ratings as $rating)
-                    <li>{{ $rating->rating.' '.$rating->ratedAt() }}</li>
-                @endforeach
-            </ul> --}}
             <div id="calendar"></div>
         </div>
     </div>

@@ -30,52 +30,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js"></script>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var ratings = {!! json_encode($habit->ratings->toArray()) !!}
-        var events = []
-        ratings.forEach(element => {
-            var newEvent = {
-                title : element.rating,
-                start : element.created_at,
-                icon: element.rating
-            }
-            events.push(newEvent)
-        });
-        events.forEach(element => {
-            if(element.icon == 'smile'){
-                element.backgroundColor = '#5cb85c'
-            }
-            else if(element.icon == 'meh'){
-                element.backgroundColor = '#f0ad4e'
-            }
-            else {
-                element.backgroundColor = '#d9534f'
-            }
-        })
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'dayGrid' ],
-            events: events,
-            eventRender: function (info) {
-                let icon = info.event.extendedProps.icon;
-                let title = $(info.el).first('.fc-title-wrap');
-                if (icon !== undefined) {
-                    title.prepend("<i class='far fa-"+ icon + " fa-lg'></i>");
+    @if(isset($habit))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var ratings = {!! json_encode($habit->ratings->toArray()) !!}
+            var events = []
+            ratings.forEach(element => {
+                var newEvent = {
+                    title : element.rating,
+                    start : element.created_at,
+                    icon: element.rating
                 }
-                if(icon == 'smile'){
-                    this.eventBackgroundColor = '#5cb85c'
+                events.push(newEvent)
+            });
+            events.forEach(element => {
+                if(element.icon == 'smile'){
+                    element.backgroundColor = '#5cb85c'
                 }
-                $(info.el).addClass('text-center pt-2 pb-1')
-            },
-            displayEventTime: false,
-            eventTextColor: '#ffffff',
-            eventBorderColor: "#ffffff"
-        });
+                else if(element.icon == 'meh'){
+                    element.backgroundColor = '#f0ad4e'
+                }
+                else {
+                    element.backgroundColor = '#d9534f'
+                }
+            })
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: [ 'dayGrid' ],
+                events: events,
+                eventRender: function (info) {
+                    let icon = info.event.extendedProps.icon;
+                    let title = $(info.el).first('.fc-title-wrap');
+                    if (icon !== undefined) {
+                        title.prepend("<i class='far fa-"+ icon + " fa-lg'></i>");
+                    }
+                    if(icon == 'smile'){
+                        this.eventBackgroundColor = '#5cb85c'
+                    }
+                    $(info.el).addClass('text-center pt-2 pb-1')
+                },
+                displayEventTime: false,
+                eventTextColor: '#ffffff',
+                eventBorderColor: "#ffffff"
+            });
 
-        calendar.render();
-      });
-    </script>
+            calendar.render();
+        });
+        </script>
+    @endif
 </head>
 <body>
     <div id="app">
