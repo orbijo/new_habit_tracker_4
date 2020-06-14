@@ -10,14 +10,19 @@ use Illuminate\Support\Facades\Gate;
 
 class HabitController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {        
+            $user_id = auth()->user()->id;
+            $hobbies = Habit::where(['user_id'=>$user_id])->get(); 
+            return view('habit.index',['hobbies'=>$hobbies]);
     }
 
     /**
@@ -27,17 +32,12 @@ class HabitController extends Controller
      */
     public function create()
     {
-        //
+        return view('habit.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store()
     {
+<<<<<<< Updated upstream
         $validation = Validator::make($request->all(), [
             'description' => 'required|string|max:128',
             'reason' => 'required|string|max:86',
@@ -57,6 +57,17 @@ class HabitController extends Controller
         if($habit->save()) {
             return redirect()->route('home');
         }
+=======
+        
+        $hobby = new Habit();
+        $hobby->habit = request('habit');
+        $hobby->description = request('description');
+        $hobby->reason = request('reason');        
+        $hobby->user_id = auth()->user()->id;
+        $hobby->save();
+        error_log($hobby);
+        return redirect('/habits')->with('mssg','New unit added successfully');
+>>>>>>> Stashed changes
     }
 
     /**
@@ -65,6 +76,7 @@ class HabitController extends Controller
      * @param  \App\Habit  $habit
      * @return \Illuminate\Http\Response
      */
+<<<<<<< Updated upstream
     public function show(Habit $habit)
     {
         $retval = Habit::with('ratings')->where('id', $habit->id)->first();
@@ -76,6 +88,16 @@ class HabitController extends Controller
             abort(404);
         }
         
+=======
+    public function show($id)
+    {    
+        
+        $user_id = auth()->user()->id;
+        $hobbies = Habit::where(['user_id'=>$user_id])->get(); 
+        $hobby = Habit::findOrFail($id);
+        return view('habit.show',['hobby'=>$hobby,'hobbies'=>$hobbies ]);
+    
+>>>>>>> Stashed changes
     }
 
     /**
@@ -88,27 +110,14 @@ class HabitController extends Controller
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Habit  $habit
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Habit $habit)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Habit  $habit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Habit $habit)
-    {
-        //
+    public function destroy($id){
+        $hobby = Habit::findOrFail($id);
+        $hobby->delete();
+        return redirect('/habits');
     }
 }

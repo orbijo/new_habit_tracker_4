@@ -15,8 +15,14 @@ class CreateHabitsTable extends Migration
     {
         Schema::create('habits', function (Blueprint $table) {
             $table->id();
+            $table->string('habit');
             $table->string('description');
+<<<<<<< Updated upstream
             $table->text('reason');
+=======
+            $table->text('reason');            
+            $table->foreignId('user_id');
+>>>>>>> Stashed changes
             $table->timestamps();
         });
     }

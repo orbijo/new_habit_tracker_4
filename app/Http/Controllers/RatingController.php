@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< Updated upstream
 use Validator;
 use Auth;
 use Carbon\Carbon;
@@ -106,5 +107,38 @@ class RatingController extends Controller
     public function destroy(Rating $rating)
     {
         //
+=======
+use Illuminate\Http\Request;
+use App\Rating;
+
+class RatingController extends Controller
+{
+    public function store($id)
+    {
+        $rate = new Rating();
+        $rate->rating = request('rating');
+        $rate->habit_id = $id;
+        $rate->user_id = auth()->user()->id;
+        $rate->save();
+        error_log($rate);
+        return redirect()->back();
+
+    } public function show($id)
+    {        
+        if(request()->ajax()) 
+        {
+ 
+         $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+         $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+ 
+         $data = Event::whereDate('start', '>=', $start)->whereDate('end',   '<=', $end)->get(['id','title','start', 'end']);
+         return Response::json($data);
+        }
+        $user_id = auth()->user()->id;
+        $rates = Rating::where(['user_id'=>$user_id,'habit_id'=>$id])->get();
+
+
+        return view('habit.rate',['rates'=>$rates]);
+>>>>>>> Stashed changes
     }
 }

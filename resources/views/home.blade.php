@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+<<<<<<< Updated upstream
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h4>My Habits</h4>
@@ -33,7 +34,32 @@
                         @endforelse
                     </tbody>
                 </table>
+=======
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <h4>Profile</h4>
+                </div>
+>>>>>>> Stashed changes
             </div>
+            <div class="row">
+                <div class="col">
+                    <h4>Habbit List</h4>
+                    
+                    @foreach($hobbies as $hob)
+                    <div>
+                        <ul>
+                            <li> <h6><a href="/hobbies/{{$hob->id}}">{{$hob->hobby}}</a></h6>
+                            </li>
+                        </ul>  </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <h4>Actions</h4>
+            <a href="/habits/create">create new habit</a>
         </div>
     </div>
 </div>

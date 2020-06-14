@@ -51,12 +51,18 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+<<<<<<< Updated upstream
             'fname' => ['required', 'string', 'max:20'],
             'lname' => ['required', 'string', 'max:20'],
             'bday' => ['required', 'date', 'before:'.now()],
             'sex' => ['required', 'string', Rule::in(['male', 'female'])],
+=======
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+>>>>>>> Stashed changes
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'gender' => ['required'],
         ]);
     }
 
@@ -69,12 +75,19 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+<<<<<<< Updated upstream
             'first_name' => $data['fname'],
             'last_name' => $data['lname'],
             'birthday' => $data['bday'],
             'sex' => $data['sex'],
+=======
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+>>>>>>> Stashed changes
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'dob' => $data['dob'],
+            'gender' => $data['gender'],
         ]);
     }
 }
